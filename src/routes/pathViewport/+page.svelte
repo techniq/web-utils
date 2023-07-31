@@ -1,19 +1,46 @@
 <script lang="ts">
   import svgpath from 'svgpath';
-  import { AppBar, CopyButton, Field, TextField, autoHeight } from 'svelte-ux';
+  import { AppBar, CopyButton, Field, TextField, autoHeight, cls } from 'svelte-ux';
 
+  let input = '';
+  let output: string | null = null;
   let inputSize = [512, 512];
   let outputSize = [24, 24];
   let precision = 2;
 
   $: scaleRatio = Math.max(...outputSize) / Math.max(...inputSize);
 
-  let input = '';
-  let output = '';
+  /*
+    TODO:
+    - [ ] Support specifying the precision
+    - [ ] Support converting to all relative or absolute commands (.rel() and .abs())
+    - [ ] Support translating (and maybe simplify setting top left)
+    - [ ] Rotate
+    - [ ] Unshort
+    - [ ] Unarc
+    - [ ] Quick presets for viewboxes (512x512, 24x24, etc)
+    - [ ] Attempt to detect viewbox?
+
+    https://github.com/fontello/svgpath
+  */
+
+  /*
+    See also:
+    - https://aydos.com/svgedit/
+    - https://github.com/kpym/SVGPathy
+      - https://kpym.github.io/SVGPathy/
+    - https://github.com/aydos/svgpath
+    - https://yqnn.github.io/svg-path-editor/
+    - https://github.com/thednp/svg-path-commander
+      - https://thednp.github.io/svg-path-commander/
+    - https://lea.verou.me/blog/2019/05/utility-convert-svg-path-to-all-relative-or-all-absolute-commands/
+    - https://codepen.io/anthonydugois/pen/EKzzmV
+  */
+
   $: try {
-    output = svgpath(input).scale(scaleRatio).round(precision);
+    output = input ? svgpath(input).scale(scaleRatio).round(precision) : null;
   } catch {
-    output = '';
+    output = null;
   }
 </script>
 
@@ -31,7 +58,12 @@
         <TextField bind:value={inputSize[1]} type="integer" dense class="w-20" />
       </div>
 
-      <TextField bind:value={input} multiline actions={(node) => [autoHeight(node)]} />
+      <TextField
+        placeholder="Enter SVG path data"
+        bind:value={input}
+        multiline
+        actions={(node) => [autoHeight(node)]}
+      />
 
       <div>
         <svg
@@ -54,14 +86,18 @@
       </div>
 
       <div>
-        <Field class="text-sm relative">
-          <CopyButton
-            value={output}
-            color="accent"
-            size="sm"
-            class="absolute top-[8px] right-[8px] bg-accent-50/90 hover:bg-accent-50/90"
-          />
-          {output}
+        <Field class="relative">
+          {#if output}
+            <CopyButton
+              value={output}
+              color="accent"
+              size="sm"
+              class="absolute top-[8px] right-[8px] bg-accent-50/90 hover:bg-accent-50/90"
+            />
+          {/if}
+          <span class={cls('text-sm', !output && 'text-black/30')}>
+            {output ?? 'Missing input'}
+          </span>
         </Field>
       </div>
 
