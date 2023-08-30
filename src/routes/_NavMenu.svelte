@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { mdiHome, mdiVectorPolyline } from '@mdi/js';
+  import { mdiHome, mdiPalette, mdiVectorPolyline } from '@mdi/js';
 
   import { NavItem } from 'svelte-ux';
 
@@ -7,6 +7,10 @@
 </script>
 
 <NavItem text="Home" icon={mdiHome} path="/" currentUrl={$page.url} class="mt-2" />
+
+<h2>Design</h2>
+
+<NavItem text="Color" icon={mdiPalette} path="/color" currentUrl={$page.url} />
 
 <h2>SVG</h2>
 
