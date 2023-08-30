@@ -7,8 +7,22 @@
   let inputSize = [512, 512];
   let outputSize = [24, 24];
   let precision = 2;
+  let translate = [0, 0];
 
+  // Scale based on input/input viewport ratio differences
   $: scaleRatio = Math.max(...outputSize) / Math.max(...inputSize);
+  // let scaleRatio = 1.5;
+  // 0.046875
+
+  // Center based on input/output viewport ratio differences
+  // $: translate =
+  //   inputSize[0] < inputSize[1]
+  //     ? [((inputSize[1] - inputSize[0]) * scaleRatio) / 2, 0]
+  //     : inputSize[0] > inputSize[1]
+  //     ? [0, ((inputSize[0] - inputSize[1]) * scaleRatio) / 2]
+  //     : [0, 0];
+  // Center based on scale ratio
+  // $: translate = [(24 * scaleRatio - 24) / -2, (24 * scaleRatio - 24) / -2];
 
   /*
     TODO:
@@ -21,24 +35,29 @@
     - [ ] Quick presets for viewboxes (512x512, 24x24, etc)
     - [ ] Attempt to detect viewbox?
 
-    https://github.com/fontello/svgpath
-  */
+    */
 
   /*
-    See also:
-    - https://aydos.com/svgedit/
-    - https://github.com/kpym/SVGPathy
-      - https://kpym.github.io/SVGPathy/
+   See also:
+    - https://github.com/fontello/svgpath
     - https://github.com/aydos/svgpath
-    - https://yqnn.github.io/svg-path-editor/
+    - https://aydos.com/svgedit/
     - https://github.com/thednp/svg-path-commander
       - https://thednp.github.io/svg-path-commander/
+    - https://github.com/kpym/SVGPathy
+      - https://kpym.github.io/SVGPathy/
+    - https://yqnn.github.io/svg-path-editor/
     - https://lea.verou.me/blog/2019/05/utility-convert-svg-path-to-all-relative-or-all-absolute-commands/
     - https://codepen.io/anthonydugois/pen/EKzzmV
   */
 
   $: try {
-    output = input ? svgpath(input).scale(scaleRatio).round(precision) : null;
+    output = input
+      ? svgpath(input)
+          .scale(scaleRatio)
+          .translate(...translate)
+          .round(precision)
+      : null;
   } catch {
     output = null;
   }
@@ -83,6 +102,14 @@
         <TextField bind:value={outputSize[0]} type="integer" dense class="w-20" />
         x
         <TextField bind:value={outputSize[1]} type="integer" dense class="w-20" />
+
+        <span class="text-gray-500 text-sm font-medium">Translate</span>
+        <TextField bind:value={translate[0]} type="decimal" dense class="w-20" />
+        x
+        <TextField bind:value={translate[1]} type="decimal" dense class="w-20" />
+
+        <span class="text-gray-500 text-sm font-medium">Scale</span>
+        <TextField bind:value={scaleRatio} type="decimal" dense class="w-20" />
       </div>
 
       <div>
