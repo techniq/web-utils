@@ -43,20 +43,20 @@
   <section class="grid gap-3">
     <TextField label="Parse color" icon={mdiMagnify} bind:value={colorStr} />
 
-    <div class="grid grid-cols-4 gap-3">
-      <TextField label="hex" value={hex}>
+    <div class="grid grid-cols-3 gap-3">
+      <TextField label="HEX" value={hex}>
         <svelte:fragment slot="append">
           <CopyButton value={hex} size="sm" />
         </svelte:fragment>
       </TextField>
 
-      <TextField label="rgb" value={rgb}>
+      <TextField label="RGB" value={rgb}>
         <svelte:fragment slot="append">
           <CopyButton value={rgb} size="sm" />
         </svelte:fragment>
       </TextField>
 
-      <TextField label="hsl" value={hsl}>
+      <TextField label="HSL" value={hsl}>
         <svelte:fragment slot="append">
           <CopyButton value={hsl} size="sm" />
         </svelte:fragment>
@@ -92,6 +92,7 @@
     <div>
       See also:
       <a href="https://www.radix-ui.com/colors" class="text-accent-600" target="_blank">Radix UI</a>
+      colors
     </div>
   </section>
 </main>
