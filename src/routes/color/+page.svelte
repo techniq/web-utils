@@ -89,82 +89,84 @@
       </TextField>
     </div>
 
-    <ToggleGroup
-      bind:value={selectedTab}
-      variant="underline"
-      classes={{ options: 'justify-start h-10 border-b border-accent-500/20' }}
-    >
-      <ToggleOption value="tailwind">Tailwind</ToggleOption>
-      <ToggleOption value="wheel">Color wheel</ToggleOption>
-    </ToggleGroup>
+    <div class="bg-white rounded border border-gray-300">
+      <ToggleGroup
+        bind:value={selectedTab}
+        variant="underline"
+        classes={{ options: 'justify-start h-10' }}
+      >
+        <ToggleOption value="tailwind">Tailwind</ToggleOption>
+        <ToggleOption value="wheel">Color wheel</ToggleOption>
+      </ToggleGroup>
 
-    {#if selectedTab === 'tailwind'}
-      <div>
-        <div class="grid grid-cols-12 items-center gap-[1px]">
-          {#each colors as [name, values]}
-            <div class="text-sm text-right mr-2">{name}</div>
-            {#each Object.entries(values) as [shade, color]}
-              {@const colorHex = twColors[name][shade]}
-              <button
-                style:background={color}
-                class={cls(
-                  'h-8 rounded-sm text-center',
-                  colorHex === hex && 'border-2 border-white/50'
-                )}
-                on:click={() => (colorStr = colorHex)}
-              >
-                <span class={cls('text-xs', shade > 500 ? 'text-white/30' : 'text-black/30')}>
-                  {shade}
-                </span>
-              </button>
-            {/each}
-          {/each}
-        </div>
+      {#if selectedTab === 'tailwind'}
         <div>
-          See also:
-          <a
-            class="text-accent-600"
-            href="https://tailwindcss.com/docs/customizing-colors"
-            target="_blank"
-          >
-            Tailwind docs
-          </a>
-          or
-          <a href="https://www.radix-ui.com/colors" class="text-accent-600" target="_blank"
-            >Radix UI</a
-          >
-          colors
-        </div>
-      </div>
-    {:else}
-      <div class="h-[600px] p-4 border rounded">
-        <Chart>
-          <Svg>
-            <Group center class="group">
-              {#each { length: layerCount } as _, layerIndex}
-                {@const layer = layerIndex + 1}
-                {#each { length: divisions } as _, segmentIndex}
-                  {@const segmentAngle = (2 * Math.PI) / divisions}
-                  {@const startAngle = segmentIndex * segmentAngle}
-                  {@const endAngle = (segmentIndex + 1) * segmentAngle}
-                  {@const color = wheelSegmentColor(startAngle, layer)}
-                  <Arc
-                    {startAngle}
-                    {endAngle}
-                    outerRadius={layer / layerCount}
-                    innerRadius={-42}
-                    cornerRadius={4}
-                    padAngle={0.02}
-                    fill={color}
-                    class="hover:!opacity-100 group-hover:opacity-50 transition duration-300"
-                    on:click={() => (colorStr = color)}
-                  />
-                {/each}
+          <div class="grid grid-cols-12 items-center gap-[1px]">
+            {#each colors as [name, values]}
+              <div class="text-sm text-right mr-2">{name}</div>
+              {#each Object.entries(values) as [shade, color]}
+                {@const colorHex = twColors[name][shade]}
+                <button
+                  style:background={color}
+                  class={cls(
+                    'h-8 rounded-sm text-center',
+                    colorHex === hex && 'border-2 border-white/50'
+                  )}
+                  on:click={() => (colorStr = colorHex)}
+                >
+                  <span class={cls('text-xs', shade > 500 ? 'text-white/30' : 'text-black/30')}>
+                    {shade}
+                  </span>
+                </button>
               {/each}
-            </Group>
-          </Svg>
-        </Chart>
-      </div>
-    {/if}
+            {/each}
+          </div>
+          <div>
+            See also:
+            <a
+              class="text-accent-600"
+              href="https://tailwindcss.com/docs/customizing-colors"
+              target="_blank"
+            >
+              Tailwind docs
+            </a>
+            or
+            <a href="https://www.radix-ui.com/colors" class="text-accent-600" target="_blank"
+              >Radix UI</a
+            >
+            colors
+          </div>
+        </div>
+      {:else}
+        <div class="h-[600px] p-4 border rounded">
+          <Chart>
+            <Svg>
+              <Group center class="group">
+                {#each { length: layerCount } as _, layerIndex}
+                  {@const layer = layerIndex + 1}
+                  {#each { length: divisions } as _, segmentIndex}
+                    {@const segmentAngle = (2 * Math.PI) / divisions}
+                    {@const startAngle = segmentIndex * segmentAngle}
+                    {@const endAngle = (segmentIndex + 1) * segmentAngle}
+                    {@const color = wheelSegmentColor(startAngle, layer)}
+                    <Arc
+                      {startAngle}
+                      {endAngle}
+                      outerRadius={layer / layerCount}
+                      innerRadius={-42}
+                      cornerRadius={4}
+                      padAngle={0.02}
+                      fill={color}
+                      class="hover:!opacity-100 group-hover:opacity-50 transition duration-300"
+                      on:click={() => (colorStr = color)}
+                    />
+                  {/each}
+                {/each}
+              </Group>
+            </Svg>
+          </Chart>
+        </div>
+      {/if}
+    </div>
   </section>
 </main>
