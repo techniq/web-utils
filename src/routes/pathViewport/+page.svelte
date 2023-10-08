@@ -1,6 +1,6 @@
 <script lang="ts">
   import svgpath from 'svgpath';
-  import { AppBar, CopyButton, Field, TextField, autoHeight, cls } from 'svelte-ux';
+  import { CopyButton, Field, TextField, autoHeight, cls } from 'svelte-ux';
 
   let input = '';
   let output: string | null = null;
@@ -62,8 +62,6 @@
     output = null;
   }
 </script>
-
-<AppBar title="Path Viewport" />
 
 <main class="p-2">
   <div class="grid gap-4">

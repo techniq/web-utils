@@ -1,7 +1,7 @@
 <script lang="ts">
   import { mdiMagnify } from '@mdi/js';
   import { color as d3color, hsl as d3hsl, type HSLColor, type RGBColor } from 'd3-color';
-  import { AppBar, CopyButton, TextField, ToggleGroup, ToggleOption, cls } from 'svelte-ux';
+  import { CopyButton, TextField, ToggleGroup, ToggleOption, cls } from 'svelte-ux';
   import { Arc, Chart, Group, radiansToDegrees, Svg } from 'layerchart';
 
   import twColors from 'tailwindcss/colors';
@@ -58,8 +58,6 @@
     }
   }
 </script>
-
-<AppBar title="Color" />
 
 <main class="p-4">
   <section class="grid gap-3">

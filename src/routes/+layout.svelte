@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { AppLayout, createTheme } from 'svelte-ux';
+  import { AppBar, AppLayout, Button, Tooltip, createTheme } from 'svelte-ux';
 
   import NavMenu from './_NavMenu.svelte';
+  import { mdiGithub, mdiTwitter } from '@mdi/js';
 
   export let data;
 
@@ -14,6 +15,28 @@
   <nav slot="nav" class="nav h-full">
     <NavMenu />
   </nav>
+
+  <AppBar title="Utilities">
+    <div slot="actions" class="flex gap-3">
+      <Tooltip title="Open Twitter / X" placement="left" offset={2}>
+        <Button
+          icon={mdiTwitter}
+          href="https://twitter.com/techniq35"
+          class="p-2"
+          target="_blank"
+        />
+      </Tooltip>
+
+      <Tooltip title="View repository" placement="left" offset={2}>
+        <Button
+          icon={mdiGithub}
+          href="https://github.com/techniq/web-utils"
+          class="p-2"
+          target="_blank"
+        />
+      </Tooltip>
+    </div>
+  </AppBar>
 
   <slot />
 </AppLayout>
